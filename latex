@@ -1,0 +1,72 @@
+\documentclass{article}
+
+\usepackage{graphicx} % Required for inserting images
+
+\title{MRT ASSIGNMENT I}
+\author{Anushka Verma\\22B0068\\Aerospace Engineering}
+\date{February 2023}
+
+\begin{document}
+
+
+
+\maketitle
+
+\section{Introduction}
+ROS (Robot Operating System) is a framework that helps in building software for robots. OpenCV (Open Source Computer Vision Library) is an open-source library that helps in computer vision and image processing tasks.Together, ROS and OpenCV can be used to create complex robotic systems with powerful image processing capabilities.  
+\section{Summary}
+At first I created my workspace \texttt{'catkin\_ws'} and added a package called 'camera' into it. I built the package using \texttt{'catkin\_make'} and started working on the python code for the publisher and subscriber nodes.
+\subsection{Publisher}
+The publisher node \texttt{'camera\_publisher'} publishes to the rostopic \texttt{ '/image\_topic'}. The script runs a while loop around the condition of roscore not being shutdown.
+I used  CvBridge to convert OpenCV images to ROS messages. Then I initialised the camera using 'VideoCapture' following which the program published the messages to the fore mentioned rostopic.
+
+\subsection{Subscriber}
+The subscriber is a prime part of the process. At first I initialised the ROS node \texttt{'image\_subscriber'}, following which I subscribed to the rostopic \texttt{'/image\_topic'}. Then I created a CvBridge object to convert ROS messages to OpenCV images.
+Every time a message is received by this node, we call a callback function which converts the standard ROS message into OpenCV image for handling and processing the image. It is converted into a gray image and then to a canny image.
+\par
+Then I displayed the processed image using OpenCV command 'imshow', following which I stacked the original image and the converted edge image horizontally together.
+I used a \texttt{camera\_py.launch} file to run both the nodes.
+Then using \texttt{'rqt\_graph'} command in a new terminal, I obtained the required ROS graph.
+
+\section{Conclusion}
+The publisher node reads the images using OpenCV and publishes them to a ROS topic, while the subscriber node subscribes to the ROS topic and processes the images further using OpenCV. This approach allows for powerful image processing capabilities in robotics applications.
+\paragraph{Challenges}
+    \begin{itemize}
+        \item identifying packages, nodes and rostopics
+        \item opening the correct directory
+        \item dealing with 'package not found' and 'directory not found' multiple times
+        \item using 'source ./devel/setup.bash'  every time  before using rosrun  in a new terminal
+        \item  finding/writing the required python code for the subscriber node
+    \end{itemize}
+    \pagebreak
+    \title{Canny Edge Images and RQT Graph}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]
+    {c1.jpg}
+    \caption{Edge Image 1}
+    \label{fig:my_label}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{c2.jpg}
+    \caption{Edge Image 2}
+    \label{fig:my_label}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{c3.jpg}
+    \caption{Edge Image 3}
+    \label{fig:my_label}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{rqt.jpg}
+    \caption{RQT Graph}
+    \label{fig:my_label}
+\end{figure}
+
+\end{document}
